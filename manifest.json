@@ -1,0 +1,12 @@
+﻿{
+  "name": "Online Liu XMa",
+  "version": "1.0",
+  "permissions": [
+    "tabs", "http://*/*", "https://*/*"
+  ],
+  "browser_action": {
+      "default_title": "線上嘸蝦米XMa程式",
+      "default_icon": "icon.ico",
+      "popup": "popup.html"
+  }
+}

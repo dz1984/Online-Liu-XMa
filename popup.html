@@ -1,0 +1,99 @@
+﻿<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script type='text/Javascript'>
+        function getQueryURL(text,all){
+            var url='http://boshiamy.com/liuquery.php?q='+text;
+            if (all)
+                url=url+'&f=1';
+            return url
+        }
+        function setLoading(isEnable){
+            var obj = document.getElementById('loading');
+            if (isEnable)
+                obj.style.visibility='visible';
+            else
+                obj.style.visibility='hidden';
+        }
+        function run_query(obj){
+            setLoading(true);
+            var queryText=obj.txtInput.value,isQueryAll=obj.queryAll.checked;
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function(){
+                if (request.readyState == 4) {
+                    var response = request.responseText.replace(/<script>.*<<\/script>/gi,'').match(/<table>.*<\/table>/gi);
+                    document.getElementById('result_box').innerHTML = response;
+                    if (isQueryAll)
+                        document.body.style.width='800px';
+                    setLoading(false);
+                }
+            };
+            request.open('GET',getQueryURL(queryText,isQueryAll),true);
+            request.send();
+        }
+    </script>
+    <style type='text/css'>
+        body {
+            width: 400px;
+            background-color: #edf5ff;
+        }
+        table {
+            border: 0px;
+            border-collapse: collapse;
+            border-top: 1px solid #777777;
+            border-left: 1px solid #777777;
+            border-spacing: 2px 2px;
+            border-color: gray;
+        }
+        th {
+            white-space: nowrap;
+            background-color: rgb(238,246,251);
+        }
+        th,td{
+            display: table-cell;
+            border-bottom: 1px solid #777;
+            border: 0px;
+            border-right: 1px solid #777;
+        }
+        #footer {
+            background: url(http://boshiamy.com/bg_footer.gif) repeat-x bottom;
+            font-size: 8pt;
+        }
+        #loading {
+            left: 42%;
+            top: 42%;
+            position: fixed;
+            text-align: center;
+            padding-left: 20px;
+            visibility: hidden;
+            background: url(http://boshiamy.com/hliu/loader.gif) no-repeat;
+        }
+        .explaintarget {
+            color: brown;
+            font-family: 微軟正黑體, 標楷體;
+            font-size: 44px;
+            font-weight: bold;
+            width: 1.4em;
+            text-align: center;
+        }
+        .explaintable th, .explaintable td {
+            vertical-align: middle;
+            padding: 3px 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id='query_box'>
+        <form>
+            您要查詢拆碼的文字：<input type="text" id="txtInput" name="q" size="10" maxlength="5">
+            <input type="button" value="查詢" style="width:4em" onclick='run_query(this.form)'><br/>
+            <input type="checkbox" id="queryAll" name="f" value="1"><label for="QueryAll">查詢所有模式</label>
+        </form>
+    </div>
+    <div id='loading'>
+        查詢中
+    </div>
+    <div id='result_box'></div>
+    <div id="footer"><strong>Copyright ©</strong> 2009 Boshiamy C&amp;C. All rights reserved.</div>
+</body>
+</html>
